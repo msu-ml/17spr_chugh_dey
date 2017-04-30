@@ -1,0 +1,11 @@
+JOB_TO_EVAL=yt8m_train_frame_level_rgb_audio_logistic_model
+JOB_NAME=yt8m_eval_frame_rgb_audio_logistic$(date +%Y%m%d_%H%M%S); gcloud --verbosity=debug ml-engine jobs submit training $JOB_NAME --package-path=youtube-8m --module-name=youtube-8m.eval --staging-bucket=$BUCKET_NAME --region=us-east1 --config=youtube-8m/cloudml-gpu.yaml -- --eval_data_pattern='gs://youtube8m-ml-us-east1/1/frame_level/validate/validate*.tfrecord' --model=FrameLevelLogisticModel --train_dir=$BUCKET_NAME/${JOB_TO_EVAL} --run_once=True --frame_features=True --feature_names="rgb, audio" --feature_sizes="1024, 128" --batch_size=1024
+
+JOB_TO_EVAL=yt8m_train_frame_level_rgb_audio_neural_model
+JOB_NAME=yt8m_eval_frame_rgb_audio_neural$(date +%Y%m%d_%H%M%S); gcloud --verbosity=debug ml-engine jobs submit training $JOB_NAME --package-path=youtube-8m --module-name=youtube-8m.eval --staging-bucket=$BUCKET_NAME --region=us-east1 --config=youtube-8m/cloudml-gpu.yaml -- --eval_data_pattern='gs://youtube8m-ml-us-east1/1/frame_level/validate/validate*.tfrecord' --model=NeuralNetworkModel --train_dir=$BUCKET_NAME/${JOB_TO_EVAL} --run_once=True --frame_features=True --feature_names="rgb, audio" --feature_sizes="1024, 128"
+
+JOB_TO_EVAL=yt8m_train_frame_level_rgb_audio_dbof_model
+JOB_NAME=yt8m_eval_frame_rgb_audio_dbof$(date +%Y%m%d_%H%M%S); gcloud --verbosity=debug ml-engine jobs submit training $JOB_NAME --package-path=youtube-8m --module-name=youtube-8m.eval --staging-bucket=$BUCKET_NAME --region=us-east1 --config=youtube-8m/cloudml-gpu.yaml -- --eval_data_pattern='gs://youtube8m-ml-us-east1/1/frame_level/validate/validate*.tfrecord' --model=DBoFModel --train_dir=$BUCKET_NAME/${JOB_TO_EVAL} --run_once=True --frame_features=True --feature_names="rgb, audio" --feature_sizes="1024, 128"
+
+JOB_TO_EVAL=yt8m_train_frame_level_audio_neural_model
+JOB_NAME=yt8m_eval_frame_audio_neural$(date +%Y%m%d_%H%M%S); gcloud --verbosity=debug ml-engine jobs submit training $JOB_NAME --package-path=youtube-8m --module-name=youtube-8m.eval --staging-bucket=$BUCKET_NAME --region=us-east1 --config=youtube-8m/cloudml-gpu.yaml -- --eval_data_pattern='gs://youtube8m-ml-us-east1/1/frame_level/validate/validate*.tfrecord' --model=NeuralNetworkModel --train_dir=$BUCKET_NAME/${JOB_TO_EVAL} --run_once=True --frame_features=True --feature_names="audio" --feature_sizes="128"
